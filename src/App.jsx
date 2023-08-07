@@ -13,8 +13,35 @@ const App = () => {
   ];
 
   const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState([0, 0, 0, 0, 0, 0, 0]);
+  const [mostVotes, setMostVotes] = useState(0);
 
-  return <div>{anecdotes[selected]}</div>;
+  const handleClick = () => {
+    const randomNumber = Math.floor(Math.random() * 8);
+    setSelected(randomNumber);
+  };
+
+  const handleVote = () => {
+    const votesCopy = [...votes];
+    votesCopy[selected] += 1;
+    setVotes(votesCopy);
+
+    const highestVote = votesCopy.indexOf(Math.max(...votesCopy));
+    setMostVotes(highestVote);
+  };
+
+  return (
+    <div>
+      <h1>Anecdote of the day</h1>
+      {anecdotes[selected]}
+      <p>Has {votes[selected]} votes</p>
+      <button onClick={handleVote}>Vote</button>
+      <button onClick={handleClick}>Click for another quote</button>
+      <br />
+      <h1>Anecdote with the most votes</h1>
+      {anecdotes[mostVotes]}
+    </div>
+  );
 };
 
 export default App;
